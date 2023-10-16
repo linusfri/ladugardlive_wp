@@ -5,9 +5,6 @@ FROM ubuntu:22.04
 ENV DEBIAN_FRONTEND=noninteractive
 ARG PHP_VERSION=8.2
 
-COPY ./entrypoint.sh /entrypoint.sh
-COPY ./nginx/ladugardlive.conf /etc/nginx/conf.d/ladugardlive.conf
-COPY ./nginx/php-fpm-pool.conf /etc/php/8.2/fpm/pool.d/
 
 # Update the package repository and install necessary packages
 RUN apt-get update && apt-get install -y \
@@ -39,9 +36,15 @@ RUN apt-get update && apt-get install -y \
     ca-certificates \
     lsb-release \
     ubuntu-keyring \ 
-    nginx
+    nginx \
+    nano
 
-RUN rm /etc/nginx/sites-available/default && rm /etc/nginx/sites-enabled/default
+RUN rm /etc/nginx/sites-available/default && rm /etc/nginx/sites-enabled/default && rm /etc/php/8.2/fpm/php.ini
+
+COPY ./entrypoint.sh /entrypoint.sh
+COPY ./nginx/ladugardlive.conf /etc/nginx/conf.d/ladugardlive.conf
+COPY ./nginx/php-fpm-pool.conf /etc/php/8.2/fpm/pool.d/
+COPY ./config/php.ini /etc/php/8.2/fpm/php.ini
 
 EXPOSE 80
 
