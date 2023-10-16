@@ -1,0 +1,24 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    image: base-php
+    ports:
+      - "80:80"
+    volumes:
+      - .:/app
+  db:
+    image: mysql:latest
+    restart: always
+    environment:
+      MYSQL_DATABASE: wp_db
+      MYSQL_USER: linus
+      MYSQL_PASSWORD: pass
+      MYSQL_RANDOM_ROOT_PASSWORD: 'root'
+    volumes:
+      - db:/var/lib/mysql
+
+volumes:
+  wordpress:
+  db:
