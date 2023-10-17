@@ -1,13 +1,10 @@
 services:
   app:
-    build:
-      context: .
-      dockerfile: ./Dockerfile
-    image: ghcr.io/linusfri/wp
+    image: ghcr.io/linusfri/wp:latest
     ports:
       - "80:80"
     volumes:
-      - .:/app
+      - wordpress:/app
   db:
     image: mysql:latest
     restart: always
@@ -20,11 +17,11 @@ services:
       MYSQL_PASSWORD_FILE: /run/secrets/mysql_pass
       MYSQL_ROOT_PASSWORD_FILE: /run/secrets/mysql_rootpw
     volumes:
-      - db:/var/lib/mysql
+      - db_prod:/var/lib/mysql
 
 volumes:
-  wordpress:
-  db:
+  wordpress_prod:
+  db_prod:
 
 secrets:
   mysql_pass:
