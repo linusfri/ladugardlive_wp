@@ -39,17 +39,17 @@ RUN apt-get update && apt-get install -y \
     nginx \
     nano
 
-RUN rm /etc/nginx/sites-available/default && rm /etc/nginx/sites-enabled/default && rm /etc/php/8.2/fpm/php.ini
+WORKDIR /app
+RUN rm /etc/nginx/sites-available/default && rm /etc/nginx/sites-enabled/default && rm /etc/php/8.2/fpm/php.ini && chown -R www-data:www-data .
 
 COPY ./entrypoint.sh /entrypoint.sh
 COPY ./nginx/ladugardlive.conf /etc/nginx/conf.d/ladugardlive.conf
 COPY ./nginx/php-fpm-pool.conf /etc/php/8.2/fpm/pool.d/
 COPY ./config/php.ini /etc/php/8.2/fpm/php.ini
-COPY . /app
+COPY . .
 
 EXPOSE 80
 
-WORKDIR /
 
 # Start Nginx
 RUN chmod +x entrypoint.sh

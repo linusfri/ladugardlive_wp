@@ -3,7 +3,7 @@ services:
     build:
       context: .
       dockerfile: ./Dockerfile
-    image: ghcr.io/linusfri/wp
+    image: ghcr.io/linusfri/ladugardlive
     ports:
       - "80:80"
     volumes:
