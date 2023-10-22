@@ -1,6 +1,6 @@
 services:
   app:
-    image: ghcr.io/linusfri/wp:latest
+    image: ghcr.io/linusfri/ladugardlive:1.0
     ports:
       - "80:80"
     volumes:
