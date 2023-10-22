@@ -40,7 +40,7 @@ RUN apt-get update && apt-get install -y \
     nano
 
 WORKDIR /app
-RUN rm /etc/nginx/sites-available/default && rm /etc/nginx/sites-enabled/default && rm /etc/php/8.2/fpm/php.ini && chown -R www-data:www-data .
+RUN rm /etc/nginx/sites-available/default && rm /etc/nginx/sites-enabled/default && rm /etc/php/8.2/fpm/php.ini
 
 COPY ./entrypoint.sh /entrypoint.sh
 COPY ./nginx/ladugardlive.conf /etc/nginx/conf.d/ladugardlive.conf
