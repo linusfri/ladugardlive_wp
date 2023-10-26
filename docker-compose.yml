@@ -5,7 +5,7 @@ services:
       dockerfile: ./Dockerfile
     image: ghcr.io/linusfri/ladugardlive:local
     ports:
-      - "80:80"
+      - "8081:80"
     volumes:
       - .:/app
   db:
