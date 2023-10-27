@@ -121,6 +121,8 @@ Config::define('DISALLOW_FILE_MODS', true);
 
 // Limit the number of post revisions
 Config::define('WP_POST_REVISIONS', env('WP_POST_REVISIONS') ?? true);
+// File uploads
+Config::define('FS_METHOD', 'direct');
 
 /**
  * Debugging Settings

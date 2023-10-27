@@ -5,7 +5,6 @@ FROM ubuntu:22.04
 ENV DEBIAN_FRONTEND=noninteractive
 ARG PHP_VERSION=8.2
 
-
 # Update the package repository and install necessary packages
 RUN apt-get update && apt-get install -y \
     software-properties-common \
@@ -17,19 +16,8 @@ RUN apt-get update && apt-get install -y \
     php${PHP_VERSION}-curl \
     php${PHP_VERSION}-xml \
     php${PHP_VERSION}-xmlrpc \
-    php${PHP_VERSION}-memcache \
-    php${PHP_VERSION}-memcached \
     php${PHP_VERSION}-mysql \
-    php${PHP_VERSION}-gd \
-    php${PHP_VERSION}-mbstring \
     php${PHP_VERSION}-cli \
-    php${PHP_VERSION}-opcache \
-    php${PHP_VERSION}-redis \
-    php${PHP_VERSION}-bcmath \
-    php${PHP_VERSION}-soap \
-    php${PHP_VERSION}-zip \
-    php${PHP_VERSION}-intl \
-    php${PHP_VERSION}-imagick \
     imagemagick \
     curl \ 
     gnupg2 \
@@ -37,19 +25,20 @@ RUN apt-get update && apt-get install -y \
     lsb-release \
     ubuntu-keyring \ 
     nginx \
-    nano
+    nano \
+    gosu
 
 RUN rm /etc/nginx/sites-available/default && rm /etc/nginx/sites-enabled/default && rm /etc/php/8.2/fpm/php.ini
 
-COPY ./entrypoint.sh /entrypoint.sh
+WORKDIR /
+
 COPY ./nginx/ladugardlive.conf /etc/nginx/conf.d/ladugardlive.conf
 COPY ./nginx/php-fpm-pool.conf /etc/php/8.2/fpm/pool.d/
 COPY ./config/php.ini /etc/php/8.2/fpm/php.ini
+COPY ./entrypoint.sh /entrypoint.sh
 
 EXPOSE 80
 
-WORKDIR /
-
 # Start Nginx
-RUN chmod +x entrypoint.sh
+RUN chmod +x entrypoint.sh /
 ENTRYPOINT ["./entrypoint.sh"]

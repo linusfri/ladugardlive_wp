@@ -4,7 +4,7 @@ services:
     ports:
       - "8081:80"
     volumes:
-      - wordpress_prod:/app
+      - wordpress_prod:/app/web/app/uploads
   db:
     image: mysql:latest
     restart: always

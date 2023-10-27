@@ -3,31 +3,24 @@ services:
     build:
       context: .
       dockerfile: ./Dockerfile
-    image: ghcr.io/linusfri/ladugardlive:local
     ports:
-      - "8081:80"
+      - "8080:80"
     volumes:
       - .:/app
+    environment:
+      USERID: 1000
+      GROUPID: 1000
   db:
     image: mysql:latest
     restart: always
-    secrets: 
-      - mysql_pass
-      - mysql_rootpw
     environment:
       MYSQL_DATABASE: wp_db
       MYSQL_USER: ladugardlive
-      MYSQL_PASSWORD_FILE: /run/secrets/mysql_pass
-      MYSQL_ROOT_PASSWORD_FILE: /run/secrets/mysql_rootpw
+      MYSQL_PASSWORD: pass
+      MYSQL_ROOT_PASSWORD: root
     volumes:
       - db:/var/lib/mysql
 
 volumes:
   wordpress:
   db:
-
-secrets:
-  mysql_pass:
-    external: true
-  mysql_rootpw:
-    external: true
