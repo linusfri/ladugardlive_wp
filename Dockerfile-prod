@@ -34,15 +34,16 @@ COPY ./composer.lock .
 COPY ./nginx/ladugardlive.conf /etc/nginx/conf.d/ladugardlive.conf
 COPY ./nginx/php-fpm-pool.conf /etc/php/8.2/fpm/pool.d/
 COPY ./config/php.ini /etc/php/8.2/fpm/php.ini
+COPY ./entrypoint.sh /entrypoint-prod.sh
 COPY . .
 
-RUN rm /etc/nginx/sites-available/default && rm /etc/nginx/sites-enabled/default && rm /etc/php/8.2/fpm/php.ini && rm ./.env.local
-RUN chmod +x install-composer.sh && ./install-composer.sh && composer install
+RUN rm /etc/nginx/sites-available/default && \ 
+    rm /etc/nginx/sites-enabled/default && \ 
+    rm ./.env.local && \
+    chmod +x install-composer.sh && ./install-composer.sh && composer install && \
+    chmod +x /entrypoint-prod.sh && chown -R www-data:www-data .
 
 EXPOSE 80
 
 # Start Nginx
-
-COPY ./entrypoint.sh /entrypoint-prod.sh
-RUN chmod +x /entrypoint-prod.sh
 ENTRYPOINT ["/entrypoint-prod.sh"]
